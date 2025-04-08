@@ -9,7 +9,7 @@ Este projeto foi desenvolvido como parte de um desafio prático da faculdade, ut
 Você precisa:
 
 - Criar um **servidor HTTP** que sirva uma página HTML.
-- Criar uma **interface WebSocket** para conectar ao servidor WebSocket do professor (`ws://192.168.100.116:8080`).
+- Criar uma **interface WebSocket** para conectar ao servidor WebSocket do professor (Criei um proprio servidor para testar).
 - Enviar informações do aluno (nome e RGM).
 - Enviar tentativas de adivinhação de número.
 - Exibir feedback do servidor (`"Maior"`, `"Menor"`, ou `"Você acertou!"`).
@@ -44,7 +44,7 @@ npm install
 node server.js
 ```
 
-###4. Em seguida execute o WebSocket
+### 4. Em seguida execute tambem o WebSocket
 ```bash
 node WebSocketServer.js
 ```
