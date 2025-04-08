@@ -1,0 +1,131 @@
+:root {
+    --primary: #4a90e2;
+    --primary-dark: #3a78c2;
+    --background: #f0f2f5;
+    --white: #ffffff;
+    --gray-light: #dfe3e8;
+    --gray-dark: #555;
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --text: #2c3e50;
+    --radius: 12px;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 30px;
+  }
+  
+  .container {
+    background-color: var(--white);
+    padding: 30px 25px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    max-width: 500px;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  label {
+    display: block;
+    margin-top: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 6px;
+    font-size: 16px;
+    border: 1px solid var(--gray-light);
+    border-radius: var(--radius);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  
+  input:focus {
+    border-color: var(--primary);
+  }
+  
+  button {
+    display: inline-block;
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  #status {
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding: 8px 12px;
+    display: inline-block;
+    border-radius: 6px;
+  }
+  
+  #status.conectado {
+    color: var(--white);
+    background-color: var(--success);
+  }
+  
+  #status.desconectado {
+    color: var(--white);
+    background-color: var(--danger);
+  }
+  
+  #mensagens, #resultado {
+    margin-top: 20px;
+    background-color: var(--background);
+    border-left: 4px solid var(--primary);
+    padding: 15px;
+    border-radius: var(--radius);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  @media (max-width: 540px) {
+    .container {
+      padding: 25px 20px;
+    }
+  
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+  }
+  

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Desafio WebSocket</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Desafio WebSocket 🎯</h1>
+  <div class="container">
+    <p>Status da Conexão: <span id="status" class="desconectado">Desconectado</span></p>
+
+    <form id="info-form">
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" required>
+
+      <label for="rgm">RGM</label>
+      <input type="text" id="rgm" required>
+
+      <button type="submit">Conectar</button>
+    </form>
+
+    <div id="game" class="hidden">
+      <label for="numero">Digite seu palpite</label>
+      <input type="number" id="numero" placeholder="Ex: 123456">
+      <button type="button" onclick="enviarTentativa()">Enviar Tentativa</button>
+
+      <div id="mensagens"></div>
+      <div id="resultado"></div>
+    </div>
+  </div>
+
+  <script>
+    let socket;
+    let tentativas = [];
+
+    document.getElementById('info-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value;
+      const rgm = document.getElementById('rgm').value;
+
+      socket = new WebSocket("ws://localhost:8080");
+
+      socket.onopen = () => {
+        document.getElementById("status").textContent = "Conectado";
+        document.getElementById("status").classList.remove("desconectado");
+        document.getElementById("status").classList.add("conectado");
+
+        socket.send(JSON.stringify({
+          type: "info",
+          name: nome,
+          rgm: rgm
+        }));
+      };
+
+      socket.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        const mensagens = document.getElementById('mensagens');
+
+        if (msg.type === "success" && msg.message === "Conexão bem-sucedida!") {
+          document.getElementById("game").classList.remove("hidden");
+        } else if (msg.type === "hint") {
+          mensagens.innerHTML += `<p>${msg.message}</p>`;
+        } else if (msg.type === "success" && msg.message === "Você acertou!") {
+          mensagens.innerHTML += `<p><strong>${msg.message}</strong></p>`;
+          document.getElementById("resultado").innerHTML = `
+            <p><strong>Número Secreto:</strong> ${msg.secretNumber}</p>
+            <p><strong>Tentativas:</strong> ${msg.attempts.join(', ')}</p>
+          `;
+        } else if (msg.type === "error") {
+          mensagens.innerHTML += `<p style="color:red;">${msg.message}</p>`;
+        }
+      };
+
+      socket.onclose = () => {
+        document.getElementById("status").textContent = "Desconectado";
+        document.getElementById("status").classList.remove("conectado");
+        document.getElementById("status").classList.add("desconectado");
+      };
+    });
+
+    function enviarTentativa() {
+      const numero = parseInt(document.getElementById("numero").value);
+      if (!isNaN(numero)) {
+        tentativas.push(numero);
+        socket.send(JSON.stringify({
+          type: "guess",
+          number: numero
+        }));
+      }
+    }
+  </script>
+</body>
+</html>
